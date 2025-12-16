@@ -9,17 +9,28 @@
 BondTrade* BondTradeLoader::createTradeFromLine(std::string line) {
     std::vector<std::string> items;
     std::stringstream ss(line);
-    std::string item;
-    
-    while (std::getline(ss, item, separator)) {
-        items.push_back(item);
+
+    // Use C style pointer to parse instead of string stream to avoid
+    // dynamic allocation for faster parse of large data.
+    const char* start = line.c_str();
+    const char* end = start;
+    while (*end) {
+        // Trim the item with trailing characters.
+        if (*end == separator || *end == '\r' || *end == '\n') {
+            std::string item(start, end - start);
+            items.push_back(item);
+            start = end + 1;
+        }
+        ++end;
     }
+    if (start != end) items.emplace_back(start, end - start);
     
     if (items.size() < 7) {
         throw std::runtime_error("Invalid line format");
     }
     
-    BondTrade* trade = new BondTrade(items[6]);
+    // Initialise the trade with trade type.
+    BondTrade* trade = new BondTrade(items[6], items[0]);
     
     std::tm tm = {};
     std::istringstream dateStream(items[1]);
