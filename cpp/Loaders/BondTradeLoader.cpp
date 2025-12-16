@@ -8,7 +8,6 @@
 
 BondTrade* BondTradeLoader::createTradeFromLine(std::string line) {
     std::vector<std::string> items;
-    std::stringstream ss(line);
 
     // Use C style pointer to parse instead of string stream to avoid
     // dynamic allocation for faster parse of large data.
