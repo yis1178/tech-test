@@ -37,21 +37,31 @@ void ScalarResults::addError(const std::string& tradeId, const std::string& erro
 }
 
 ScalarResults::Iterator& ScalarResults::Iterator::operator++() {
-    throw std::runtime_error("Iterator not implemented");
+    ++it_;
+    return *this;
 }
 
 ScalarResult ScalarResults::Iterator::operator*() const {
-    throw std::runtime_error("Iterator not implemented");
+    auto optRes = (*parent_)[*it_];
+    return *optRes;
 }
 
 bool ScalarResults::Iterator::operator!=(const Iterator& other) const {
-    throw std::runtime_error("Iterator not implemented");
+    return it_ != other.it_;
 }
 
 ScalarResults::Iterator ScalarResults::begin() const {
-    throw std::runtime_error("Not implemented");
+    std::vector<std::string> allTradeIds;
+    for (auto& [tradeId, _] : results_) allTradeIds.push_back(tradeId);
+    for (auto& [tradeId, _] : errors_) {
+        if (std::find(allTradeIds.begin(), allTradeIds.end(), tradeId) == allTradeIds.end())
+            allTradeIds.push_back(tradeId);
+    }
+    allTradeIds_ = std::move(allTradeIds); // store in member
+
+    return Iterator(allTradeIds_.cbegin(), this);
 }
 
 ScalarResults::Iterator ScalarResults::end() const {
-    throw std::runtime_error("Not implemented");
+    return Iterator(allTradeIds_.cend(), this);
 }

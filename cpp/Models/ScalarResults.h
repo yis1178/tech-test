@@ -30,10 +30,16 @@ public:
 
         Iterator() = default;
 
+        Iterator(std::vector<std::string>::const_iterator it, const ScalarResults* parent)
+        : it_(it), parent_(parent) {}
+
         // Iterator must be constructable from ScalarResults parent
         Iterator& operator++();
         ScalarResult operator*() const;
         bool operator!=(const Iterator& other) const;
+    private:
+        std::vector<std::string>::const_iterator it_;
+        const ScalarResults* parent_ = nullptr;
     };
 
     Iterator begin() const;
@@ -42,6 +48,7 @@ public:
 private:
     std::map<std::string, double> results_;
     std::map<std::string, std::string> errors_;
+    mutable std::vector<std::string> allTradeIds_;
 };
 
 #endif // SCALARRESULTS_H
