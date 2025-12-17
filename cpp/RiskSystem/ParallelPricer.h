@@ -24,6 +24,7 @@ public:
     
     void price(const std::vector<std::vector<ITrade*>>& tradeContainers, 
                IScalarResultReceiver* resultReceiver);
+    void singlePrice(ITrade* trade, IScalarResultReceiver* resultReceiver);
 };
 
 #endif // PARALLELPRICER_H

@@ -29,15 +29,18 @@ int _getch() {
 #endif
 
 int main(int argc, char* argv[]) {
-    //SerialTradeLoader tradeLoader;
-    //auto allTrades = tradeLoader.loadTrades();
+    SerialTradeLoader tradeLoader;
+    auto allTrades = tradeLoader.loadTrades();
     
     ScalarResults results;
-    //SerialPricer pricer;
-    //pricer.price(allTrades, &results);
+    SerialPricer pricer;
+    // Uncomment to test for ParallelPricer.
+    // ParallelPricer pricer;
+    pricer.price(allTrades, &results);
 
-    StreamingTradeLoader tradeLoader;
-    tradeLoader.loadAndPrice(&results);
+    // Uncomment to test for StreamingTradeLoader
+    // StreamingTradeLoader tradeLoader;
+    // tradeLoader.loadAndPrice(&results);
     
     ScreenResultPrinter screenPrinter;
     screenPrinter.printResults(results);
