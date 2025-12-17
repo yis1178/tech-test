@@ -12,10 +12,10 @@
 class SerialPricer {
 private:
     std::map<std::string, IPricingEngine*> pricers_;
-    void loadPricers();
     
 public:
     ~SerialPricer();
+    void loadPricers();
     void price(const std::vector<std::vector<ITrade*>>& tradeContainers, 
                IScalarResultReceiver* resultReceiver);
 };

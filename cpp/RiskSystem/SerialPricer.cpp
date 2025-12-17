@@ -27,9 +27,7 @@ void SerialPricer::loadPricers() {
 }
 
 void SerialPricer::price(const std::vector<std::vector<ITrade*>>& tradeContainers, 
-                         IScalarResultReceiver* resultReceiver) {
-    loadPricers();
-    
+                         IScalarResultReceiver* resultReceiver) {    
     for (const auto& tradeContainer : tradeContainers) {
         for (ITrade* trade : tradeContainer) {
             std::string tradeType = trade->getTradeType();

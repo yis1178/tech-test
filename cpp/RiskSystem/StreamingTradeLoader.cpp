@@ -19,7 +19,7 @@ std::vector<ITradeLoader*> StreamingTradeLoader::getTradeLoaders() {
 }
 
 void StreamingTradeLoader::loadPricers() {
-    throw std::runtime_error("Not implemented");
+    pricers_.loadPricers();
 }
 
 StreamingTradeLoader::~StreamingTradeLoader() {
