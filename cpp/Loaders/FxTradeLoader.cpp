@@ -117,17 +117,22 @@ void FxTradeLoader::setFileStream(const std::string& file){
     }
 }
 
-ITrade* FxTradeLoader::next(){
+ITrade* FxTradeLoader::next(int& lineCount){
     if (!file_.good() || file_.eof()) {
         return nullptr;
     }
-
     std::string line;
     if (!std::getline(file_, line)) {
         return nullptr;
     }
+    if (lineCount == 0 ){
+        std::getline(file_, line);
+        std::getline(file_, line);
+        lineCount +=2;
+    }
 
     FxTrade* trade = createTradeFromLine(line);
+    lineCount++;
     if (!trade) {return nullptr;}
 
     return trade;

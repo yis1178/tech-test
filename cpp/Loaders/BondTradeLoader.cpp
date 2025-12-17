@@ -27,7 +27,6 @@ BondTrade* BondTradeLoader::createTradeFromLine(std::string line) {
     if (items.size() < 7) {
         return nullptr;
     }
-    
     // Initialise the trade with trade type.
     BondTrade* trade = new BondTrade(items[6], items[0]);
     
@@ -41,6 +40,7 @@ BondTrade* BondTradeLoader::createTradeFromLine(std::string line) {
     trade->setCounterparty(items[3]);
     trade->setNotional(std::stod(items[4]));
     trade->setRate(std::stod(items[5]));
+
     
     return trade;
 }
@@ -98,7 +98,7 @@ void BondTradeLoader::setFileStream(const std::string& file){
     }
 }
 
-ITrade* BondTradeLoader::next(){
+ITrade* BondTradeLoader::next(int& lineCount){
     if (!file_.good() || file_.eof()) {
         return nullptr;
     }
@@ -107,8 +107,12 @@ ITrade* BondTradeLoader::next(){
     if (!std::getline(file_, line)) {
         return nullptr;
     }
-
+    if (lineCount == 0){
+        std::getline(file_, line);
+        lineCount += 1;
+    }
     BondTrade* trade = createTradeFromLine(line);
+    lineCount++;
     if (!trade) {return nullptr;}
 
     return trade;

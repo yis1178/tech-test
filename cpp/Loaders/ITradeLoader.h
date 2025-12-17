@@ -13,7 +13,7 @@ public:
     virtual void setDataFile(const std::string& file) = 0;
     virtual void setFileStream(const std::string& file) = 0;
     // Returns nullptr when no more trades
-    virtual ITrade* next() = 0;
+    virtual ITrade* next(int& lineCount) = 0;
 };
 
 #endif // ITRADELOADER_H

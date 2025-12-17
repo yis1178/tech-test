@@ -23,7 +23,7 @@ public:
     std::string getDataFile() const override;
     void setDataFile(const std::string& file) override;
     void setFileStream(const std::string& file) override;
-    ITrade* next() override;
+    ITrade* next(int& lintCount) override;
 };
 
 #endif // BONDTRADELOADER_H

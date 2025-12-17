@@ -23,7 +23,7 @@ public:
     std::string getDataFile() const override;
     void setDataFile(const std::string& file) override;
     void setFileStream(const std::string& file) override;
-    ITrade* next() override;
+    ITrade* next(int& lineCount) override;
     std::chrono::system_clock::time_point getValueDate() const { return valueDate_; }
     void setValueDate(const std::chrono::system_clock::time_point& date) { valueDate_ = date; }
 };

@@ -27,9 +27,12 @@ StreamingTradeLoader::~StreamingTradeLoader() {
 }
 
 void StreamingTradeLoader::loadAndPrice(IScalarResultReceiver* resultReceiver) {
+    loadPricers();
     std::vector<ITradeLoader*> loaders = getTradeLoaders();
     for (auto loader:loaders){
-        while (ITrade* trade = loader->next()){
+        loader->setFileStream(loader->getDataFile());
+        int lineCount = 0;
+        while (ITrade* trade = loader->next(lineCount)){
             pricers_.singlePrice(trade, resultReceiver);            
         }
     }
