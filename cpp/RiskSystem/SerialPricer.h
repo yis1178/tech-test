@@ -1,24 +1,14 @@
 #ifndef SERIALPRICER_H
 #define SERIALPRICER_H
+#include "Pricer.h"
 
-#include "../Models/IPricingEngine.h"
-#include "../Models/ITrade.h"
-#include "../Models/IScalarResultReceiver.h"
-#include "PricingConfigLoader.h"
-#include <map>
-#include <vector>
-#include <string>
-
-class SerialPricer {
-private:
-    std::map<std::string, IPricingEngine*> pricers_;
-    
+class SerialPricer : public Pricer {
 public:
     ~SerialPricer();
-    void loadPricers();
+
     void price(const std::vector<std::vector<ITrade*>>& tradeContainers, 
-               IScalarResultReceiver* resultReceiver);
-    void singlePrice(ITrade* trade, IScalarResultReceiver* resultReceiver);
+               IScalarResultReceiver* resultReceiver) override;
+    void singlePrice(ITrade* trade, IScalarResultReceiver* resultReceiver) override;
 };
 
 #endif // SERIALPRICER_H
