@@ -42,6 +42,7 @@ void SerialPricer::singlePrice(ITrade* trade,
             std::string tradeType = trade->getTradeType();
             if (pricers_.find(tradeType) == pricers_.end()) {
                 resultReceiver->addError(trade->getTradeId(), "No Pricing Engines available for this trade type");
+                return;
             }
             
             IPricingEngine* pricer = pricers_[tradeType];
