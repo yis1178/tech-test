@@ -27,7 +27,8 @@ void SerialPricer::loadPricers() {
 }
 
 void SerialPricer::price(const std::vector<std::vector<ITrade*>>& tradeContainers, 
-                         IScalarResultReceiver* resultReceiver) {    
+                         IScalarResultReceiver* resultReceiver) {  
+    loadPricers();  
     for (const auto& tradeContainer : tradeContainers) {
         for (ITrade* trade : tradeContainer) {
             singlePrice(trade, resultReceiver);
