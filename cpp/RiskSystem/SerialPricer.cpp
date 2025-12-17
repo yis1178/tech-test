@@ -30,14 +30,20 @@ void SerialPricer::price(const std::vector<std::vector<ITrade*>>& tradeContainer
                          IScalarResultReceiver* resultReceiver) {    
     for (const auto& tradeContainer : tradeContainers) {
         for (ITrade* trade : tradeContainer) {
+            singlePrice(trade, resultReceiver);
+        }
+    }
+}
+
+void SerialPricer::singlePrice(ITrade* trade, 
+                         IScalarResultReceiver* resultReceiver) {    
+
             std::string tradeType = trade->getTradeType();
             if (pricers_.find(tradeType) == pricers_.end()) {
                 resultReceiver->addError(trade->getTradeId(), "No Pricing Engines available for this trade type");
-                continue;
             }
             
             IPricingEngine* pricer = pricers_[tradeType];
             pricer->price(trade, resultReceiver);
-        }
-    }
+
 }
