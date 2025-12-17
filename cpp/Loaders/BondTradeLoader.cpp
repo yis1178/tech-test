@@ -25,7 +25,7 @@ BondTrade* BondTradeLoader::createTradeFromLine(std::string line) {
     if (start != end) items.emplace_back(start, end - start);
     
     if (items.size() < 7) {
-        throw std::runtime_error("Invalid line format");
+        return nullptr;
     }
     
     // Initialise the trade with trade type.
@@ -83,4 +83,33 @@ std::string BondTradeLoader::getDataFile() const {
 
 void BondTradeLoader::setDataFile(const std::string& file) {
     dataFile_ = file;
+}
+
+void BondTradeLoader::setFileStream(const std::string& file){
+    // Close previous file if open
+    if (file_.is_open()) {
+        file_.close();
+    }
+
+    // Open new file
+    file_.open(file);
+    if (!file_.is_open()) {
+        throw std::runtime_error("Failed to open trade file: " + file);
+    }
+}
+
+ITrade* BondTradeLoader::next(){
+    if (!file_.good() || file_.eof()) {
+        return nullptr;
+    }
+
+    std::string line;
+    if (!std::getline(file_, line)) {
+        return nullptr;
+    }
+
+    BondTrade* trade = createTradeFromLine(line);
+    if (!trade) {return nullptr;}
+
+    return trade;
 }

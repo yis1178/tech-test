@@ -11,6 +11,9 @@ public:
     virtual std::vector<ITrade*> loadTrades() = 0;
     virtual std::string getDataFile() const = 0;
     virtual void setDataFile(const std::string& file) = 0;
+    virtual void setFileStream(const std::string& file) = 0;
+    // Returns nullptr when no more trades
+    virtual ITrade* next() = 0;
 };
 
 #endif // ITRADELOADER_H

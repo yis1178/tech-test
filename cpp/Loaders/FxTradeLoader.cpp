@@ -35,7 +35,7 @@ FxTrade* FxTradeLoader::createTradeFromLine(std::string line) {
     items.push_back(lastItem);
     
     if (items.size() < 9) {
-        throw std::runtime_error("Invalid line format");
+        return nullptr;
     }
     // Initialise the trade with trade type.
     FxTrade* trade = new FxTrade(items[8], items[0]);
@@ -102,4 +102,33 @@ std::string FxTradeLoader::getDataFile() const {
 
 void FxTradeLoader::setDataFile(const std::string& file) {
     dataFile_ = file;
+}
+
+void FxTradeLoader::setFileStream(const std::string& file){
+    // Close previous file if open
+    if (file_.is_open()) {
+        file_.close();
+    }
+
+    // Open new file
+    file_.open(file);
+    if (!file_.is_open()) {
+        throw std::runtime_error("Failed to open trade file: " + file);
+    }
+}
+
+ITrade* FxTradeLoader::next(){
+    if (!file_.good() || file_.eof()) {
+        return nullptr;
+    }
+
+    std::string line;
+    if (!std::getline(file_, line)) {
+        return nullptr;
+    }
+
+    FxTrade* trade = createTradeFromLine(line);
+    if (!trade) {return nullptr;}
+
+    return trade;
 }
