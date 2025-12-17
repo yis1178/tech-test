@@ -9,5 +9,14 @@ void ScreenResultPrinter::printResults(ScalarResults& results) {
         // TradeID : Error
         // If there is no error the output should be:
         // TradeID : Result
+        auto tradeId = result.getTradeId();
+        std::cout << "TradeID: " << tradeId;
+        if (auto r = result.getResult()){
+            std::cout << " Result: " << std::to_string(*r);
+        }
+        if (auto e = result.getError()){
+            std::cout << " Error: " << *e;
+        }
+        std::cout << std::endl;
     }
 }
