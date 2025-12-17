@@ -27,5 +27,10 @@ StreamingTradeLoader::~StreamingTradeLoader() {
 }
 
 void StreamingTradeLoader::loadAndPrice(IScalarResultReceiver* resultReceiver) {
-    throw std::runtime_error("Not implemented");
+    std::vector<ITradeLoader*> loaders = getTradeLoaders();
+    for (auto loader:loaders){
+        while (ITrade* trade = loader->next()){
+            pricers_.singlePrice(trade, resultReceiver);            
+        }
+    }
 }
